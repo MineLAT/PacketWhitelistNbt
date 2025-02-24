@@ -1,6 +1,6 @@
 name: PacketWhitelistNbt
 version: ${version}
-main: xuan.cat.packetwhitelistnbt.code.ReduceIndex
+main: xuan.cat.packetwhitelistnbt.PacketWhitelistNbt
 api-version: 1.13
 authors: [xuancat0208]
 
