@@ -9,7 +9,11 @@ import xuan.cat.packetwhitelistnbt.api.ServerNBT;
 import xuan.cat.packetwhitelistnbt.api.nbt.CompoundTag;
 import xuan.cat.packetwhitelistnbt.api.nbt.ListTag;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 配置文件
@@ -70,7 +74,7 @@ public final class ConfigData {
         for (String itemAllowedTag : tagList) {
             String[] tagSplit = itemAllowedTag.split("\\.");
             TagComparator comparator = comparatorRoot;
-            for (int layer = 0, length = tagSplit.length - 1 ; layer <= length ; layer++) {
+            for (int layer = 0, length = tagSplit.length - 1; layer <= length; layer++) {
                 String tag = tagSplit[layer];
                 if (layer == length) {
                     // 最後一個
@@ -90,7 +94,9 @@ public final class ConfigData {
     }
 
 
-    /** 標籤比較器 */
+    /**
+     * 標籤比較器
+     */
     private static class TagComparator {
         private final Set<String> hitSet = new HashSet<>();
         private final Map<String, TagComparator> layerMap = new HashMap<>();
@@ -102,6 +108,7 @@ public final class ConfigData {
         public boolean isHit(String name) {
             return hitAll || hitSet.contains(name);
         }
+
         public void setHit(String name) {
             hitSet.add(name);
         }
@@ -109,6 +116,7 @@ public final class ConfigData {
         public void setHitAll(boolean allowedAll) {
             this.hitAll = allowedAll;
         }
+
         public boolean isHitAll() {
             return hitAll;
         }
@@ -116,6 +124,7 @@ public final class ConfigData {
         public TagComparator getLayer(String name) {
             return layerMap.get(name);
         }
+
         public TagComparator getLayerNotNull(String name) {
             TagComparator child = layerMap.computeIfAbsent(name, key -> new TagComparator());
             child.hitAll |= hitAll;
@@ -144,9 +153,11 @@ public final class ConfigData {
         }
         return serverNBT.toItem(closeItem);
     }
+
     private static CompoundTag filtrationTagComparatorMap(ServerNBT serverNBT, CompoundTag sourceMap, TagComparator allowedComparator, TagComparator disallowComparator) {
         return filtrationTagComparatorMap(serverNBT, sourceMap, allowedComparator, disallowComparator, allowedComparator.hitAll);
     }
+
     private static CompoundTag filtrationTagComparatorMap(ServerNBT serverNBT, CompoundTag sourceMap, TagComparator allowedComparator, TagComparator disallowComparator, boolean allowedAll) {
         if (!allowedAll && allowedComparator == null) {
             return null;
@@ -181,6 +192,7 @@ public final class ConfigData {
         }
         return closeMap.size() == 0 ? null : closeMap;
     }
+
     private static ListTag filtrationTagComparatorList(ServerNBT serverNBT, ListTag sourceList, TagComparator allowedComparator, TagComparator disallowComparator, boolean allowedAll) {
         if (!allowedAll && allowedComparator == null) {
             return null;

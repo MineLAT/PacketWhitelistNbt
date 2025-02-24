@@ -1,6 +1,11 @@
 package xuan.cat.packetwhitelistnbt.module.server;
 
-import net.minecraft.network.protocol.game.*;
+import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.network.protocol.game.ClientboundMerchantOffersPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket;
+import net.minecraft.network.protocol.game.ClientboundUpdateRecipesPacket;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.item.ItemStack;
@@ -69,6 +74,7 @@ public final class MinecraftPacket implements ServerPacket {
     }
 
     private static Field field_DataValue_value;
+
     static {
         try {
             field_DataValue_value = SynchedEntityData.DataValue.class.getDeclaredField("c"); // value
@@ -77,6 +83,7 @@ public final class MinecraftPacket implements ServerPacket {
             ex.printStackTrace();
         }
     }
+
     @Override
     public void convertEntityMetadata(EntityMetadataEvent event, Function<org.bukkit.inventory.ItemStack, org.bukkit.inventory.ItemStack> convert) {
         ClientboundSetEntityDataPacket packet = (ClientboundSetEntityDataPacket) event.getPacket();

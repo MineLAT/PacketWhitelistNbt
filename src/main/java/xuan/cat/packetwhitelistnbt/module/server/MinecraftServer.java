@@ -1,12 +1,28 @@
 package xuan.cat.packetwhitelistnbt.module.server;
 
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelDuplexHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.ChannelPromise;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.*;
+import org.bukkit.inventory.BlastingRecipe;
+import org.bukkit.inventory.CampfireRecipe;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.SmithingRecipe;
+import org.bukkit.inventory.SmokingRecipe;
+import org.bukkit.inventory.StonecuttingRecipe;
 import xuan.cat.packetwhitelistnbt.api.ServerInstance;
 
 import java.util.ArrayList;
@@ -72,13 +88,14 @@ public final class MinecraftServer implements ServerInstance {
         }
         return recipe;
     }
+
     private RecipeChoice filtrationRecipeChoice(RecipeChoice recipeChoice, Function<ItemStack, ItemStack> convert) {
         if (recipeChoice instanceof RecipeChoice.ExactChoice) {
             RecipeChoice.ExactChoice exactChoice = (RecipeChoice.ExactChoice) recipeChoice;
             List<ItemStack> choices = new ArrayList<>();
             exactChoice.getChoices().forEach(item -> choices.add(convert.apply(item)));
             return new RecipeChoice.ExactChoice(choices);
-        } else  {
+        } else {
             return recipeChoice;
         }
     }

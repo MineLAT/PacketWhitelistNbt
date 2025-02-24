@@ -14,6 +14,7 @@ public final class PacketSetSlot {
     }
 
     private static Field field_itemStack;
+
     static {
         try {
             field_itemStack = ClientboundContainerSetSlotPacket.class.getDeclaredField("f"); // TODO 映射 itemStack
@@ -22,6 +23,7 @@ public final class PacketSetSlot {
             ex.printStackTrace();
         }
     }
+
     public org.bukkit.inventory.ItemStack getItem() {
         try {
             return CraftItemStack.asBukkitCopy((ItemStack) field_itemStack.get(packet));
@@ -30,6 +32,7 @@ public final class PacketSetSlot {
             return null;
         }
     }
+
     public void setItem(org.bukkit.inventory.ItemStack item) {
         try {
             field_itemStack.set(packet, CraftItemStack.asNMSCopy(item));

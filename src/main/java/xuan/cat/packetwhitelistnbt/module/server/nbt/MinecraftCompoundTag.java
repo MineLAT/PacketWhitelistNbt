@@ -26,7 +26,7 @@ public final class MinecraftCompoundTag implements CompoundTag {
     public TagType getType(String key) {
         return MinecraftTags.fromNMS(tag.getTagType(key));
     }
-    
+
     public int size() {
         return tag.size();
     }
@@ -59,11 +59,11 @@ public final class MinecraftCompoundTag implements CompoundTag {
 
         return new MinecraftCompoundTag(nbtTagCompound);
     }
-    
+
     public int getInt(String key) {
         return tag.getInt(key);
     }
-    
+
     public String getString(String key) {
         return tag.getString(key);
     }

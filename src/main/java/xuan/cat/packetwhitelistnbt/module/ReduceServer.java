@@ -13,20 +13,17 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class ReduceServer {
+
     private final ConfigData configData;
-    private final Plugin plugin;
     private final Set<BukkitTask> bukkitTasks = ConcurrentHashMap.newKeySet();
     private final Map<Player, PlayerPermissions> playerPermissionsMap = new ConcurrentHashMap<>();
 
-
     public ReduceServer(ConfigData configData, Plugin plugin) {
         this.configData = configData;
-        this.plugin = plugin;
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
         bukkitTasks.add(scheduler.runTaskTimer(plugin, this::syncRun, 0, 1));
     }
-
 
     private void syncRun() {
         playerPermissionsMap.forEach((player, permissions) -> {
@@ -38,7 +35,6 @@ public final class ReduceServer {
         });
     }
 
-
     public PlayerPermissions getPermissions(Player player) {
         return playerPermissionsMap.computeIfAbsent(player, key -> new PlayerPermissions(configData, key));
     }
@@ -47,9 +43,9 @@ public final class ReduceServer {
         playerPermissionsMap.remove(player);
     }
 
-
     public void close() {
-        for (BukkitTask task : bukkitTasks)
+        for (BukkitTask task : bukkitTasks) {
             task.cancel();
+        }
     }
 }

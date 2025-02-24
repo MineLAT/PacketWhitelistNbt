@@ -43,6 +43,7 @@ public final class EventListener implements Listener {
         // 注入代碼
         serverInstance.injectPlayer(event.getPlayer());
     }
+
     /**
      * @param event 玩家登出
      */
@@ -139,9 +140,9 @@ public final class EventListener implements Listener {
     public void on(PlayerGameModeChangeEvent event) {
         Player player = event.getPlayer();
         if (player.getGameMode() != GameMode.CREATIVE && event.getNewGameMode() == GameMode.CREATIVE) {
-            Bukkit.getScheduler().runTask(PacketWhitelistNbt.getPlugin(), player::updateInventory);
+            Bukkit.getScheduler().runTask(PacketWhitelistNbt.get(), player::updateInventory);
         } else if (player.getGameMode() == GameMode.CREATIVE && event.getNewGameMode() != GameMode.CREATIVE) {
-            Bukkit.getScheduler().runTask(PacketWhitelistNbt.getPlugin(), player::updateInventory);
+            Bukkit.getScheduler().runTask(PacketWhitelistNbt.get(), player::updateInventory);
         }
     }
 

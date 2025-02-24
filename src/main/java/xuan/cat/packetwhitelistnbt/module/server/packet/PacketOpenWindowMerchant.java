@@ -17,6 +17,7 @@ public final class PacketOpenWindowMerchant {
     }
 
     private static Field field_offers;
+
     static {
         try {
             field_offers = ClientboundMerchantOffersPacket.class.getDeclaredField("b"); // TODO 映射 offers
@@ -25,11 +26,13 @@ public final class PacketOpenWindowMerchant {
             ex.printStackTrace();
         }
     }
+
     public List<MerchantRecipe> getRecipeList() {
         List<MerchantRecipe> recipeList = new ArrayList<>();
         packet.getOffers().forEach(recipe -> recipeList.add(recipe.asBukkit()));
         return recipeList;
     }
+
     public void setRecipeList(List<MerchantRecipe> recipeList) {
         MerchantOffers list = new MerchantOffers();
         recipeList.forEach(recipe -> list.add(CraftMerchantRecipe.fromBukkit(recipe).toMinecraft()));

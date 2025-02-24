@@ -3,7 +3,6 @@ package xuan.cat.packetwhitelistnbt.api;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.Recipe;
-import xuan.cat.packetwhitelistnbt.api.branch.event.*;
 import xuan.cat.packetwhitelistnbt.api.event.EntityEquipmentEvent;
 import xuan.cat.packetwhitelistnbt.api.event.EntityMetadataEvent;
 import xuan.cat.packetwhitelistnbt.api.event.OpenWindowMerchantEvent;

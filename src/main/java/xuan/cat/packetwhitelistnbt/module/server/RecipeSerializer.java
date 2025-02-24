@@ -1,7 +1,16 @@
 package xuan.cat.packetwhitelistnbt.module.server;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.CampfireCookingRecipe;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.item.crafting.SmithingTransformRecipe;
+import net.minecraft.world.item.crafting.SmithingTrimRecipe;
+import net.minecraft.world.item.crafting.SmokingRecipe;
+import net.minecraft.world.item.crafting.StonecutterRecipe;
 import org.bukkit.craftbukkit.v1_19_R3.inventory.*;
 import org.bukkit.craftbukkit.v1_19_R3.util.CraftNamespacedKey;
 import org.bukkit.inventory.Recipe;
@@ -13,6 +22,7 @@ import java.util.Map;
 
 public final class RecipeSerializer {
     private static Field field_CraftComplexRecipe_recipe;
+
     static {
         try {
             field_CraftComplexRecipe_recipe = CraftComplexRecipe.class.getDeclaredField("recipe");
@@ -21,6 +31,7 @@ public final class RecipeSerializer {
             ex.printStackTrace();
         }
     }
+
     public static net.minecraft.world.item.crafting.Recipe fromBukkit(Recipe recipe) {
         if (recipe instanceof org.bukkit.inventory.BlastingRecipe) {
             CraftBlastingRecipe craftRecipe = CraftBlastingRecipe.fromBukkitRecipe((org.bukkit.inventory.BlastingRecipe) recipe);
@@ -40,9 +51,9 @@ public final class RecipeSerializer {
             Map<Character, RecipeChoice> choiceMap = craftRecipe.getChoiceMap();
             int width = shapeList[0].length();
             NonNullList<Ingredient> data = NonNullList.withSize(shapeList.length * width, Ingredient.EMPTY);
-            for(int column = 0; column < shapeList.length; ++column) {
+            for (int column = 0; column < shapeList.length; ++column) {
                 String shape = shapeList[column];
-                for(int row = 0; row < shape.length(); ++row) {
+                for (int row = 0; row < shape.length(); ++row) {
                     data.set(column * width + row, craftRecipe.toNMS(choiceMap.get(shape.charAt(row)), false));
                 }
             }
@@ -52,7 +63,7 @@ public final class RecipeSerializer {
             CraftShapelessRecipe craftRecipe = CraftShapelessRecipe.fromBukkitRecipe((org.bukkit.inventory.ShapelessRecipe) recipe);
             List<RecipeChoice> choiceList = craftRecipe.getChoiceList();
             NonNullList<Ingredient> data = NonNullList.withSize(choiceList.size(), Ingredient.EMPTY);
-            for(int i = 0; i < choiceList.size(); ++i) {
+            for (int i = 0; i < choiceList.size(); ++i) {
                 data.set(i, craftRecipe.toNMS(choiceList.get(i), true));
             }
             return new ShapelessRecipe(CraftNamespacedKey.toMinecraft(craftRecipe.getKey()), craftRecipe.getGroup(), CraftRecipe.getCategory(craftRecipe.getCategory()), CraftItemStack.asNMSCopy(craftRecipe.getResult()), data);

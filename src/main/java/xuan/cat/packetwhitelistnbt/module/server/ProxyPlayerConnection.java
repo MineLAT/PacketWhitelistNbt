@@ -1,7 +1,12 @@
 package xuan.cat.packetwhitelistnbt.module.server;
 
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.*;
+import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.network.protocol.game.ClientboundMerchantOffersPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket;
+import net.minecraft.network.protocol.game.ClientboundUpdateRecipesPacket;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import xuan.cat.packetwhitelistnbt.api.event.EntityEquipmentEvent;

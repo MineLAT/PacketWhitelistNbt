@@ -18,6 +18,7 @@ public final class PacketWindowItems {
 
     private static Field field_Items;
     private static Field field_CarriedItem;
+
     static {
         try {
             field_Items = ClientboundContainerSetContentPacket.class.getDeclaredField("c"); // TODO 映射 items
@@ -28,6 +29,7 @@ public final class PacketWindowItems {
             ex.printStackTrace();
         }
     }
+
     public List<org.bukkit.inventory.ItemStack> getItemList() {
         List<org.bukkit.inventory.ItemStack> items = new ArrayList<>();
         try {
@@ -40,9 +42,10 @@ public final class PacketWindowItems {
         }
         return items;
     }
+
     public void setItemList(List<org.bukkit.inventory.ItemStack> itemList) {
         NonNullList<ItemStack> nonNullList = NonNullList.withSize(itemList.size(), ItemStack.EMPTY);
-        for (int slot = 0 ; slot < itemList.size() ; slot++) {
+        for (int slot = 0; slot < itemList.size(); slot++) {
             org.bukkit.inventory.ItemStack item = itemList.get(slot);
             if (item != null) {
                 nonNullList.set(slot, CraftItemStack.asNMSCopy(item));
@@ -63,6 +66,7 @@ public final class PacketWindowItems {
             return null;
         }
     }
+
     public void setCarriedItem(org.bukkit.inventory.ItemStack item) {
         try {
             field_CarriedItem.set(packet, CraftItemStack.asNMSCopy(item));

@@ -5,16 +5,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xuan.cat.packetwhitelistnbt.module.ReduceServer;
 import xuan.cat.packetwhitelistnbt.core.data.ConfigData;
+import xuan.cat.packetwhitelistnbt.module.ReduceServer;
 
 public final class Command implements CommandExecutor {
     private final ReduceServer reduceServer;
     private final ConfigData configData;
 
     public Command(ReduceServer reduceServer, ConfigData configData) {
-        this.reduceServer   = reduceServer;
-        this.configData     = configData;
+        this.reduceServer = reduceServer;
+        this.configData = configData;
     }
 
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String message, String[] parameters) {

@@ -24,6 +24,7 @@ public final class MinecraftNBT implements ServerNBT {
 
 
     private static Field field_CraftItemStack_handle;
+
     static {
         try {
             field_CraftItemStack_handle = CraftItemStack.class.getDeclaredField("handle");
@@ -32,6 +33,7 @@ public final class MinecraftNBT implements ServerNBT {
             ex.printStackTrace();
         }
     }
+
     @Override
     public CompoundTag fromItem(org.bukkit.inventory.ItemStack item) {
         if (!(item instanceof CraftItemStack))

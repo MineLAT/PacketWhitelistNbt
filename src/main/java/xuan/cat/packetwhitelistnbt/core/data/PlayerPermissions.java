@@ -5,11 +5,17 @@ import org.bukkit.entity.Player;
 public final class PlayerPermissions {
     private final ConfigData configData;
     private final Player player;
-    /** 檢查權限 */
+    /**
+     * 檢查權限
+     */
     private Long permissionsCheck = null;
-    /** 權限需要檢查 */
+    /**
+     * 權限需要檢查
+     */
     public boolean permissionsNeed = true;
-    /** 忽略標籤限制 */
+    /**
+     * 忽略標籤限制
+     */
     public boolean ignoreItemTagLimit;
 
     public PlayerPermissions(ConfigData configData, Player player) {

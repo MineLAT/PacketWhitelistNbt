@@ -30,6 +30,7 @@ public final class MinecraftListTag extends ListTag {
         add(size(), value);
         return true;
     }
+
     public void add(int index, Object value) {
         if (value instanceof MinecraftCompoundTag) {
             tag.add(index, ((MinecraftCompoundTag) value).getNMSTag());

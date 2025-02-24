@@ -21,6 +21,7 @@ public final class PacketEntityEquipment {
     }
 
     private static Field field_slots;
+
     static {
         try {
             field_slots = ClientboundSetEquipmentPacket.class.getDeclaredField("c"); // TODO 映射 slots
@@ -29,16 +30,18 @@ public final class PacketEntityEquipment {
             ex.printStackTrace();
         }
     }
+
     public Map<EquipmentSlot, org.bukkit.inventory.ItemStack> getEquipmentItemMap() {
         Map<EquipmentSlot, org.bukkit.inventory.ItemStack> map = new HashMap<>();
         packet.getSlots().forEach(pair -> map.put(CraftEquipmentSlot.getSlot(pair.getFirst()), CraftItemStack.asBukkitCopy(pair.getSecond())));
         return map;
     }
+
     public void setEquipmentItemMap(Map<EquipmentSlot, org.bukkit.inventory.ItemStack> equipmentItemMap) {
         List<Pair<net.minecraft.world.entity.EquipmentSlot, ItemStack>> list = new ArrayList<>(equipmentItemMap.size());
         equipmentItemMap.forEach((slot, item) -> list.add(Pair.of(CraftEquipmentSlot.getNMS(slot), CraftItemStack.asNMSCopy(item))));
         try {
-            field_slots.set(packet,list);
+            field_slots.set(packet, list);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
