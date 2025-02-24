@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.14'
+    id 'com.gradleup.shadow' version '8.3.5'
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+repositories {
+    maven { url 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url 'https://repo.codemc.io/repository/nms/' }
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://libraries.minecraft.net' }
+    mavenCentral()
+}
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from(sourceSets.main.resources.srcDirs) {
+        include 'plugin.yml'
+        expand(rootProject.properties)
+    }
+}
+
+dependencies {
+    paperweight.paperDevBundle("1.19.3-R0.1-SNAPSHOT")
+
+    compileOnly 'com.mojang:datafixerupper:4.0.26'
+    compileOnly 'com.mojang:brigadier:1.0.18'
+    compileOnly 'com.mojang:authlib:3.2.38'
+    compileOnly 'io.netty:netty-all:4.1.85.Final'
+    compileOnly 'it.unimi.dsi:fastutil:8.5.9'
+    compileOnly 'com.google.collections:google-collections:1.0'
+    compileOnly 'net.kyori:adventure-api:4.11.0'
+
+    compileOnly 'org.jetbrains:annotations:26.0.2'
+
+    compileOnly fileTree(dir: 'libs', includes: ['*.jar'])
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+jar {
+    enabled = false
+    dependsOn (shadowJar)
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    minimize()
+}

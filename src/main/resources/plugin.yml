@@ -1,5 +1,5 @@
 name: PacketWhitelistNbt
-version: ${project.version}
+version: ${version}
 main: xuan.cat.packetwhitelistnbt.code.ReduceIndex
 api-version: 1.13
 authors: [xuancat0208]
