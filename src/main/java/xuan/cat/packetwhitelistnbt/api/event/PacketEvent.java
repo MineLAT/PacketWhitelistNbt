@@ -7,11 +7,13 @@ import org.bukkit.event.Event;
 
 public abstract class PacketEvent extends Event implements Cancellable {
     private final Player player;
+    private Object packet;
     private boolean cancel = false;
 
-    public PacketEvent(Player player) {
+    public PacketEvent(Player player, Object packet) {
         super(!Bukkit.isPrimaryThread());
         this.player = player;
+        this.packet = packet;
     }
 
     public final boolean isCancelled() {
@@ -24,5 +26,13 @@ public abstract class PacketEvent extends Event implements Cancellable {
 
     public final Player getPlayer() {
         return player;
+    }
+
+    public Object getPacket() {
+        return packet;
+    }
+
+    public void setPacket(Object packet) {
+        this.packet = packet;
     }
 }

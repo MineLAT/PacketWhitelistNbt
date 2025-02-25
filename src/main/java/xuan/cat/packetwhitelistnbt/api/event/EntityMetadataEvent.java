@@ -14,14 +14,7 @@ public final class EntityMetadataEvent extends PacketEvent {
         return handlers;
     }
 
-    private final Object packet;
-
     public EntityMetadataEvent(Player player, Object packet) {
-        super(player);
-        this.packet = packet;
-    }
-
-    public Object getPacket() {
-        return packet;
+        super(player, packet);
     }
 }

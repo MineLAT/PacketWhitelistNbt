@@ -2,7 +2,7 @@ package xuan.cat.packetwhitelistnbt.module.server.packet;
 
 import net.minecraft.network.protocol.game.ClientboundMerchantOffersPacket;
 import net.minecraft.world.item.trading.MerchantOffers;
-import org.bukkit.craftbukkit.v1_19_R3.inventory.CraftMerchantRecipe;
+import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftMerchantRecipe;
 import org.bukkit.inventory.MerchantRecipe;
 
 import java.lang.reflect.Field;

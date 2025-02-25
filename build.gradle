@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'idea'
     id 'io.papermc.paperweight.userdev' version '2.0.0-beta.14'
-    id 'com.gradleup.shadow' version '8.3.5'
 }
 
 idea {
@@ -29,15 +28,7 @@ processResources {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.19.3-R0.1-SNAPSHOT")
-
-    compileOnly 'com.mojang:datafixerupper:4.0.26'
-    compileOnly 'com.mojang:brigadier:1.0.18'
-    compileOnly 'com.mojang:authlib:3.2.38'
-    compileOnly 'io.netty:netty-all:4.1.85.Final'
-    compileOnly 'it.unimi.dsi:fastutil:8.5.9'
-    compileOnly 'com.google.collections:google-collections:1.0'
-    compileOnly 'net.kyori:adventure-api:4.11.0'
+    paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT")
 
     compileOnly 'org.jetbrains:annotations:26.0.2'
 
@@ -49,16 +40,10 @@ compileJava {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
-jar {
-    enabled = false
-    dependsOn (shadowJar)
-}
-
-shadowJar {
-    archiveClassifier.set('')
-    minimize()
+assemble {
+    dependsOn(reobfJar)
 }

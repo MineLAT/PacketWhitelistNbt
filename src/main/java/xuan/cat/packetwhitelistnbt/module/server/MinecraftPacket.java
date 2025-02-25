@@ -9,7 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundUpdateRecipesPacket;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.craftbukkit.v1_19_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.Recipe;
@@ -27,11 +27,13 @@ import xuan.cat.packetwhitelistnbt.module.server.packet.PacketSetSlot;
 import xuan.cat.packetwhitelistnbt.module.server.packet.PacketWindowItems;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class MinecraftPacket implements ServerPacket {
     @Override
@@ -73,29 +75,32 @@ public final class MinecraftPacket implements ServerPacket {
         packet.setRecipeList(list);
     }
 
-    private static Field field_DataValue_value;
-
-    static {
-        try {
-            field_DataValue_value = SynchedEntityData.DataValue.class.getDeclaredField("c"); // value
-            field_DataValue_value.setAccessible(true);
-        } catch (NoSuchFieldException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     @Override
     public void convertEntityMetadata(EntityMetadataEvent event, Function<org.bukkit.inventory.ItemStack, org.bukkit.inventory.ItemStack> convert) {
         ClientboundSetEntityDataPacket packet = (ClientboundSetEntityDataPacket) event.getPacket();
-        packet.packedItems().forEach(entry -> {
+        boolean rewrite = false;
+        for (SynchedEntityData.DataValue<?> entry : packet.packedItems()) {
             if (entry.serializer() == EntityDataSerializers.ITEM_STACK) {
-                SynchedEntityData.DataValue<ItemStack> dataWatcher = (SynchedEntityData.DataValue<ItemStack>) entry;
-                try {
-                    field_DataValue_value.set(dataWatcher, CraftItemStack.asNMSCopy(convert.apply(CraftItemStack.asBukkitCopy(dataWatcher.value()))));
-                } catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                }
+                rewrite = true;
+                break;
             }
-        });
+        }
+        if (!rewrite) {
+            return;
+        }
+        ClientboundSetEntityDataPacket result = new ClientboundSetEntityDataPacket(packet.id(),
+                packet.packedItems().stream().map(entry -> {
+                    if (entry.serializer() == EntityDataSerializers.ITEM_STACK) {
+                        SynchedEntityData.DataValue<ItemStack> value = (SynchedEntityData.DataValue<ItemStack>) entry;
+                        return new SynchedEntityData.DataValue<>(
+                                value.id(),
+                                value.serializer(),
+                                CraftItemStack.asNMSCopy(convert.apply(CraftItemStack.asBukkitCopy(value.value())))
+                        );
+                    }
+                    return entry;
+                }).collect(Collectors.toCollection(ArrayList::new))
+            );
+        event.setPacket(result);
     }
 }

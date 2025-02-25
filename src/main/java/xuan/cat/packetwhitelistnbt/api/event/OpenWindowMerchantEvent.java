@@ -14,14 +14,7 @@ public final class OpenWindowMerchantEvent extends PacketEvent {
         return handlers;
     }
 
-    private final Object packet;
-
     public OpenWindowMerchantEvent(Player player, Object packet) {
-        super(player);
-        this.packet = packet;
-    }
-
-    public Object getPacket() {
-        return packet;
+        super(player, packet);
     }
 }

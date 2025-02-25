@@ -9,7 +9,7 @@ import io.netty.channel.ChannelPromise;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.BlastingRecipe;
 import org.bukkit.inventory.CampfireRecipe;
@@ -109,8 +109,10 @@ public final class MinecraftServer implements ServerInstance {
             @Override
             public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
                 if (msg instanceof Packet) {
-                    if (!ProxyPlayerConnection.write(player, (Packet<?>) msg))
+                    msg = ProxyPlayerConnection.write(player, (Packet<?>) msg);
+                    if (msg == null) {
                         return;
+                    }
                 }
                 super.write(ctx, msg, promise);
             }
@@ -119,8 +121,10 @@ public final class MinecraftServer implements ServerInstance {
             @Override
             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                 if (msg instanceof Packet) {
-                    if (!ProxyPlayerConnection.read(player, (Packet<?>) msg))
+                    msg = ProxyPlayerConnection.read(player, (Packet<?>) msg);
+                    if (msg == null) {
                         return;
+                    }
                 }
                 super.channelRead(ctx, msg);
             }

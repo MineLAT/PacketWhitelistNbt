@@ -11,8 +11,8 @@ import net.minecraft.world.item.crafting.SmithingTransformRecipe;
 import net.minecraft.world.item.crafting.SmithingTrimRecipe;
 import net.minecraft.world.item.crafting.SmokingRecipe;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
-import org.bukkit.craftbukkit.v1_19_R3.inventory.*;
-import org.bukkit.craftbukkit.v1_19_R3.util.CraftNamespacedKey;
+import org.bukkit.craftbukkit.v1_20_R1.inventory.*;
+import org.bukkit.craftbukkit.v1_20_R1.util.CraftNamespacedKey;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 
@@ -75,16 +75,6 @@ public final class RecipeSerializer {
         } else if (recipe instanceof org.bukkit.inventory.SmithingTransformRecipe) {
             CraftSmithingTransformRecipe craftRecipe = CraftSmithingTransformRecipe.fromBukkitRecipe((org.bukkit.inventory.SmithingTransformRecipe) recipe);
             return new SmithingTransformRecipe(CraftNamespacedKey.toMinecraft(craftRecipe.getKey()), craftRecipe.toNMS(craftRecipe.getTemplate(), true), craftRecipe.toNMS(craftRecipe.getBase(), true), craftRecipe.toNMS(craftRecipe.getAddition(), true), CraftItemStack.asNMSCopy(craftRecipe.getResult()));
-
-        } else if (recipe instanceof org.bukkit.inventory.SmithingRecipe) {
-            CraftSmithingRecipe craftRecipe = CraftSmithingRecipe.fromBukkitRecipe((org.bukkit.inventory.SmithingRecipe) recipe);
-            try {
-                // 適用於 paper
-                return new LegacyUpgradeRecipe(CraftNamespacedKey.toMinecraft(craftRecipe.getKey()), craftRecipe.toNMS(craftRecipe.getBase(), true), craftRecipe.toNMS(craftRecipe.getAddition(), true), CraftItemStack.asNMSCopy(craftRecipe.getResult()), craftRecipe.willCopyNbt());
-            } catch (NoSuchMethodError noSuchMethodError) {
-                // 適用於 spigot (不推薦)
-                return new LegacyUpgradeRecipe(CraftNamespacedKey.toMinecraft(craftRecipe.getKey()), craftRecipe.toNMS(craftRecipe.getBase(), true), craftRecipe.toNMS(craftRecipe.getAddition(), true), CraftItemStack.asNMSCopy(craftRecipe.getResult()));
-            }
 
         } else if (recipe instanceof org.bukkit.inventory.SmokingRecipe) {
             CraftSmokingRecipe craftRecipe = CraftSmokingRecipe.fromBukkitRecipe((org.bukkit.inventory.SmokingRecipe) recipe);
